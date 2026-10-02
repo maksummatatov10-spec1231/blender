@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Странник</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #0c110d; }
+  body { font-family: "DejaVu Sans", system-ui, sans-serif; color: #efe6d6; }
+  #c { position: fixed; inset: 0; display: block; touch-action: none; }
+
+  .panel {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    min-width: 340px; max-width: 92vw; padding: 34px 40px; text-align: center;
+    background: linear-gradient(160deg, rgba(24, 30, 24, 0.92), rgba(12, 15, 12, 0.94));
+    border: 1px solid rgba(232, 196, 122, 0.28); border-radius: 18px;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55); backdrop-filter: blur(6px); z-index: 10;
+  }
+  .panel h1 { font-size: 40px; letter-spacing: 6px; color: #e8c47a; margin-bottom: 6px; text-shadow: 0 2px 18px rgba(232,196,122,0.25); }
+  .panel h2 { font-size: 24px; color: #e8c47a; margin-bottom: 18px; letter-spacing: 2px; }
+  .panel .sub { font-size: 13px; opacity: 0.75; margin-bottom: 26px; letter-spacing: 1px; }
+  button {
+    display: block; width: 100%; margin: 9px 0; padding: 12px 18px; font-size: 16px;
+    font-family: inherit; color: #efe6d6; background: rgba(232, 196, 122, 0.08);
+    border: 1px solid rgba(232, 196, 122, 0.35); border-radius: 12px; cursor: pointer;
+    transition: background 0.15s, transform 0.05s;
+  }
+  button:hover { background: rgba(232, 196, 122, 0.2); }
+  button:active { transform: scale(0.98); }
+  select {
+    width: 100%; margin: 6px 0 16px; padding: 10px 12px; font-size: 15px; font-family: inherit;
+    color: #efe6d6; background: rgba(20, 26, 20, 0.9); border: 1px solid rgba(232, 196, 122, 0.35);
+    border-radius: 10px; cursor: pointer;
+  }
+  label.row { display: block; text-align: left; font-size: 13px; opacity: 0.8; margin-top: 8px; }
+
+  #hud { position: absolute; inset: 0; pointer-events: none; z-index: 6; }
+  #compass {
+    position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+    padding: 7px 16px; font-size: 14px; letter-spacing: 3px;
+    background: rgba(12, 10, 8, 0.45); border: 1px solid rgba(232,196,122,0.3); border-radius: 999px;
+  }
+  #loc {
+    position: absolute; top: 16px; left: 16px; padding: 8px 14px; font-size: 14px;
+    background: rgba(12, 10, 8, 0.45); border: 1px solid rgba(232,196,122,0.3); border-radius: 12px;
+  }
+  #map { position: absolute; right: 18px; bottom: 18px; width: 150px; height: 150px; border-radius: 12px; border: 1px solid rgba(232,196,122,0.3); background: rgba(12,10,8,0.55); }
+  #hint {
+    position: absolute; left: 18px; bottom: 18px; max-width: 340px; font-size: 12px; line-height: 1.45;
+    color: #efe6d6; background: rgba(12,10,8,0.45); padding: 10px 12px; border-radius: 12px;
+  }
+  #prompt {
+    position: absolute; left: 50%; bottom: 92px; transform: translateX(-50%);
+    display: none; padding: 8px 14px; border-radius: 999px; background: rgba(12,10,8,0.7);
+    border: 1px solid rgba(232,196,122,0.4); font-size: 14px;
+  }
+  #cross { position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border: 1px solid rgba(255,255,255,0.75); border-radius: 50%; }
+  #load {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: #10160f; z-index: 20; flex-direction: column; gap: 12px;
+  }
+  #bar { width: 240px; height: 6px; border-radius: 99px; background: #2a241c; overflow: hidden; }
+  #bar i { display: block; height: 100%; width: 0; background: #e8c47a; transition: width 0.2s; }
+  #loadtext { font-size: 14px; opacity: 0.8; letter-spacing: 1px; }
+
+  .pad { position: absolute; left: 16px; bottom: 78px; width: 138px; height: 138px; display: none; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; gap: 4px; pointer-events: auto; }
+  .pad button { margin: 0; padding: 0; font-size: 16px; border-radius: 8px; }
+  .sidebtns { display: none; position: absolute; right: 180px; bottom: 24px; gap: 8px; pointer-events: auto; }
+  .sidebtns button { width: auto; padding: 10px 14px; margin: 0; }
+  @media (pointer: coarse) {
+    .pad { display: grid; }
+    .sidebtns { display: flex; }
+    #hint { display: none; }
+  }
+  #read p { text-align: left; line-height: 1.55; color: #efe6d6; margin-bottom: 18px; max-width: 520px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div id="load"><div id="loadtext">Загрузка мира…</div><div id="bar"><i></i></div></div>
+
+<div id="hud" class="hidden">
+  <div id="loc"></div>
+  <div id="compass">С</div>
+  <canvas id="map" width="150" height="150"></canvas>
+  <div id="hint"></div>
+  <div id="prompt"></div>
+  <div id="cross"></div>
+  <div class="pad" id="pad">
+    <span></span><button data-k="KeyW" type="button">▲</button><span></span>
+    <button data-k="KeyA" type="button">◀</button><button data-k="ShiftLeft" type="button">⇧</button><button data-k="KeyD" type="button">▶</button>
+    <span></span><button data-k="KeyS" type="button">▼</button><span></span>
+  </div>
+  <div class="sidebtns">
+    <button id="btnJump" type="button">⤒</button>
+    <button id="btnCam" type="button">V</button>
+    <button id="btnEsc" type="button">Esc</button>
+  </div>
+</div>
+
+<div id="menu" class="panel hidden">
+  <h1 id="title">Странник</h1>
+  <p class="sub" id="subtitle"></p>
+  <button id="btnPlay"></button>
+  <button id="btnSettings"></button>
+  <button id="btnQuit"></button>
+</div>
+
+<div id="settings" class="panel hidden">
+  <h2 id="settingsTitle">Настройки</h2>
+  <label class="row" id="langLabel">Язык</label>
+  <select id="lang"></select>
+  <label class="row" id="gfxLabel">Графика</label>
+  <select id="gfx"></select>
+  <button id="btnSettingsBack"></button>
+</div>
+
+<div id="farewell" class="panel hidden">
+  <h2 id="byeTitle"></h2>
+  <p class="sub" id="byeText"></p>
+  <button id="btnBack"></button>
+</div>
+
+<div id="read" class="panel hidden">
+  <h2 id="readTitle"></h2>
+  <p id="readBody"></p>
+  <button id="btnReadClose"></button>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js",
+    "three/addons/": "./vendor/jsm/"
+  }
+}
+</script>
+<script type="module" src="./js/game.js"></script>
+</body>
+</html>
