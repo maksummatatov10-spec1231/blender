@@ -72,6 +72,14 @@ func _ready() -> void:
 func _lang() -> String:
 	return settings["lang"]
 
+func _load_font() -> Font:
+	var data := FileAccess.get_file_as_bytes("res://assets/DejaVuSans.ttf")
+	if data.is_empty():
+		return SystemFont.new()
+	var f := FontFile.new()
+	f.data = data
+	return f
+
 # ================================================================ environment
 
 func _build_environment() -> void:
@@ -523,6 +531,8 @@ func _try_read_sign() -> void:
 # ================================================================ frame loop
 
 func _process(delta: float) -> void:
+	if read_panel == null or player == null:
+		return
 	menu_time += delta
 	# ambient animation runs always (cheap)
 	var wm = registry.get("water_mat")

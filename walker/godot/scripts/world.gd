@@ -113,6 +113,14 @@ static func _cyl_shape(r: float, h: float) -> CylinderShape3D:
 	s.height = h
 	return s
 
+static func _cone(bottom_r: float, h: float, segs: int) -> CylinderMesh:
+	var m := CylinderMesh.new()
+	m.top_radius = 0.0
+	m.bottom_radius = bottom_r
+	m.height = h
+	m.radial_segments = segs
+	return m
+
 # ------------------------------------------------------------------ terrain
 
 static func _terrain_color(h: float, s: float, x: float, z: float) -> Color:
@@ -163,7 +171,6 @@ static func build_terrain(parent: Node3D, registry: Dictionary) -> void:
 	mat.vertex_color_use_as_albedo = true
 	mat.roughness = 0.92
 	mi.material_override = mat
-	mi.receive_shadow = true
 	parent.add_child(mi)
 	# collision: heightmap, z-major row layout matching vertex grid
 	var data := PackedFloat32Array()
@@ -426,19 +433,10 @@ static func build_forest(parent: Node3D, registry: Dictionary, count: int) -> vo
 	trunk_mesh.bottom_radius = 0.24
 	trunk_mesh.height = 2.4
 	trunk_mesh.radial_segments = 7
-	var cone_mesh := ConeMesh.new()
-	cone_mesh.bottom_radius = 1.25
-	cone_mesh.height = 2.6
-	cone_mesh.radial_segments = 8
-	var cone_mesh2 := ConeMesh.new()
-	cone_mesh2.bottom_radius = 0.9
-	cone_mesh2.height = 2.0
-	cone_mesh2.radial_segments = 8
+	var cone_mesh := _cone(1.25, 2.6, 8)
+	var cone_mesh2 := _cone(0.9, 2.0, 8)
 	# far LOD mesh: single cone
-	var far_mesh := ConeMesh.new()
-	far_mesh.bottom_radius = 1.35
-	far_mesh.height = 4.6
-	far_mesh.radial_segments = 5
+	var far_mesh := _cone(1.35, 4.6, 5)
 	var near: Array = []
 	near.append(_make_mmi(forest_root, trunk_mesh, _mat(Color(0.42, 0.29, 0.19), 0.95), Vector3(0, 1.2, 0)))
 	near.append(_make_mmi(forest_root, cone_mesh, _mat(Color(0.18, 0.29, 0.16), 0.9), Vector3(0, 3.2, 0)))
@@ -539,10 +537,7 @@ static func build_props(parent: Node3D, registry: Dictionary) -> void:
 	logs.rotation_degrees = Vector3(0, 23, 90)
 	parent.add_child(logs)
 	var flame := MeshInstance3D.new()
-	var fcm := ConeMesh.new()
-	fcm.bottom_radius = 0.17
-	fcm.height = 0.55
-	flame.mesh = fcm
+	flame.mesh = _cone(0.17, 0.55, 6)
 	var fmat := StandardMaterial3D.new()
 	fmat.albedo_color = Color(1.0, 0.69, 0.35)
 	fmat.emission_enabled = true
