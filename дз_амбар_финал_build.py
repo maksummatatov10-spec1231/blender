@@ -131,6 +131,68 @@ def add_wall_siding():
         z += 0.30
     new_obj("Обшивка_доски", bm, mat)
 
+def cut_openings():
+    # Обшивка закрыла сквозные проёмы базовой сцены — прорезаем её теми же
+    # Boolean-резаками, что и стены (окно, ворота, дверь, задние проёмы).
+    siding = bpy.data.objects.get("Обшивка_доски")
+    names = ["Резак_ворот", "Резак_окна", "Резак_двери",
+             "Резак_ворот_сзади", "Резак_окна_сзади"]
+    # у резаков базовой сцены вывернуты нормали — чиним, иначе
+    # EXACT-булеан режет криво
+    for n in names:
+        c = bpy.data.objects.get(n)
+        if not c:
+            continue
+        bm = bmesh.new()
+        bm.from_mesh(c.data)
+        bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+        if bm.calc_volume(signed=True) < 0:
+            for f in bm.faces:
+                f.normal_flip()
+        bm.to_mesh(c.data)
+        bm.free()
+        c.data.update()
+    if siding:
+        for n in names:
+            c = bpy.data.objects.get(n)
+            if c:
+                m = siding.modifiers.new("cut_" + n, 'BOOLEAN')
+                m.operation = 'DIFFERENCE'
+                m.object = c
+                m.solver = 'EXACT'
+    for n in names:
+        c = bpy.data.objects.get(n)
+        if c:
+            # не hide_render (иначе булеан теряет операнд в рендере),
+            # а невидимость для всех лучей
+            for attr in ("visible_camera", "visible_diffuse", "visible_glossy",
+                         "visible_transmission", "visible_volume_scatter",
+                         "visible_shadow"):
+                if hasattr(c, attr):
+                    setattr(c, attr, False)
+
+def bake_openings():
+    # Запекаем булевы проёмы в меши (стены + обшивка), чтобы рендер
+    # гарантированно видел отверстия независимо от депсграфа рендера.
+    dg = bpy.context.evaluated_depsgraph_get()
+    for n in ["Стена_фасада", "Стена_задняя", "Обшивка_доски"]:
+        ob = bpy.data.objects.get(n)
+        if not ob or not ob.modifiers:
+            continue
+        ev = ob.evaluated_get(dg)
+        me = bpy.data.meshes.new_from_object(ev)
+        old = ob.data
+        ob.data = me
+        ob.modifiers.clear()
+        if old.users == 0:
+            bpy.data.meshes.remove(old)
+    for n in ["Резак_ворот", "Резак_окна", "Резак_двери",
+              "Резак_ворот_сзади", "Резак_окна_сзади"]:
+        c = bpy.data.objects.get(n)
+        if c:
+            c.hide_render = True
+            c.hide_set(True)
+
 def add_fence():
     bm = bmesh.new()
     mat = bpy.data.materials["Забор"]
@@ -221,6 +283,8 @@ def main():
     paint_all()
     add_roof_boards()
     add_wall_siding()
+    cut_openings()
+    bake_openings()
     add_fence()
     setup_render()
     import os
