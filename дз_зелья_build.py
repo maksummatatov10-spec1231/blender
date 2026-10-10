@@ -65,6 +65,14 @@ POTIONS = [
 ]
 
 # ---------------------------------------------------------------- материалы
+def _refr(m):
+    # чтобы стекло/жидкость преломлялись и в EEVEE-превью, не только в Cycles
+    for attr in ("use_raytrace_refraction", "use_screen_refraction"):
+        try:
+            setattr(m, attr, True)
+        except Exception:
+            pass
+
 def mat_glass():
     m = bpy.data.materials.new("Glass")
     m.use_nodes = True
@@ -73,6 +81,7 @@ def mat_glass():
     b.inputs["Roughness"].default_value = 0.03
     b.inputs["Transmission Weight"].default_value = 1.0
     b.inputs["IOR"].default_value = 1.45
+    _refr(m)
     return m
 
 def mat_liquid(col):
@@ -83,6 +92,10 @@ def mat_liquid(col):
     b.inputs["Roughness"].default_value = 0.05
     b.inputs["Transmission Weight"].default_value = 1.0
     b.inputs["IOR"].default_value = 1.34
+    # лёгкое свечение — зелье «светится» в любом превью
+    b.inputs["Emission Color"].default_value = (*col, 1)
+    b.inputs["Emission Strength"].default_value = 0.15
+    _refr(m)
     return m
 
 def mat_cork():
@@ -120,7 +133,14 @@ def screw_to_mesh(ob, steps=96):
         o.select_set(False)
     ob.select_set(True)
     bpy.ops.object.convert(target='MESH')
-    return bpy.context.view_layer.objects.active
+    ob = bpy.context.view_layer.objects.active
+    import bmesh
+    bm = bmesh.new()
+    bm.from_mesh(ob.data)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    bm.to_mesh(ob.data)
+    bm.free()
+    return ob
 
 def smooth_obj(ob, angle=40):
     for o in bpy.context.selected_objects:
@@ -251,6 +271,12 @@ def build_scene():
     sc = bpy.context.scene
     sc.render.engine = 'CYCLES'
     sc.cycles.device = 'CPU'
+    # EEVEE-превью у пользователя тоже должно преломлять стекло
+    for attr, val in (("use_raytracing", True), ("use_ssr", True), ("use_ssr_refraction", True)):
+        try:
+            setattr(sc.eevee, attr, val)
+        except Exception:
+            pass
     sc.cycles.samples = 64
     sc.cycles.use_adaptive_sampling = True
     sc.cycles.adaptive_threshold = 0.05
