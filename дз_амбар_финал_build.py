@@ -122,7 +122,7 @@ def add_wall_siding():
         w = facade_width(z + 0.14) - 0.55
         if w > 0.5:
             add_box(bm, Vector((0, -0.035, z + 0.14)), (w, 0.05, 0.26))
-            add_box(bm, Vector((-0.17, 4.48, z + 0.14)), (w, 0.05, 0.26))
+            add_box(bm, Vector((0, 4.485, z + 0.14)), (w, 0.05, 0.26))
         z += 0.30
     z = 0.25
     while z < 2.3:
@@ -131,12 +131,16 @@ def add_wall_siding():
         z += 0.30
     new_obj("Обшивка_доски", bm, mat)
 
+FRONT_CUTTERS = ["Резак_ворот", "Резак_окна", "Резак_двери"]
+BACK_CUTTERS = ["Резак_ворот_сзади", "Резак_окна_сзади"]
+
 def cut_openings():
     # Обшивка закрыла сквозные проёмы базовой сцены — прорезаем её теми же
-    # Boolean-резаками, что и стены (окно, ворота, дверь, задние проёмы).
+    # Boolean-резаками, что и фасадную стену (окно, ворота, дверь).
+    # ЗАДНЯЯ стена остаётся целой: задние «резаки» из части 2 были нужны
+    # только чтобы видеть небо сквозь передние дыры, теперь они не нужны.
     siding = bpy.data.objects.get("Обшивка_доски")
-    names = ["Резак_ворот", "Резак_окна", "Резак_двери",
-             "Резак_ворот_сзади", "Резак_окна_сзади"]
+    names = FRONT_CUTTERS
     # у резаков базовой сцены вывернуты нормали — чиним, иначе
     # EXACT-булеан режет криво
     for n in names:
@@ -171,11 +175,28 @@ def cut_openings():
                 if hasattr(c, attr):
                     setattr(c, attr, False)
 
+def close_back_wall():
+    # Задняя стена: убираем два огромных проёма части 2 (Boolean-модификаторы)
+    # и удаляем их резаки — стена снова сплошная. Наружная грань — красная,
+    # как у фасада и боковых стен.
+    wall = bpy.data.objects.get("Стена_задняя")
+    if wall:
+        wall.modifiers.clear()
+        red = bpy.data.materials["Красная_обшивка"]
+        wall.data.materials[0] = red
+    for n in BACK_CUTTERS:
+        c = bpy.data.objects.get(n)
+        if c:
+            me = c.data
+            bpy.data.objects.remove(c, do_unlink=True)
+            if me.users == 0:
+                bpy.data.meshes.remove(me)
+
 def bake_openings():
-    # Запекаем булевы проёмы в меши (стены + обшивка), чтобы рендер
+    # Запекаем булевы проёмы в меши (стена + обшивка), чтобы рендер
     # гарантированно видел отверстия независимо от депсграфа рендера.
     dg = bpy.context.evaluated_depsgraph_get()
-    for n in ["Стена_фасада", "Стена_задняя", "Обшивка_доски"]:
+    for n in ["Стена_фасада", "Обшивка_доски"]:
         ob = bpy.data.objects.get(n)
         if not ob or not ob.modifiers:
             continue
@@ -186,12 +207,47 @@ def bake_openings():
         ob.modifiers.clear()
         if old.users == 0:
             bpy.data.meshes.remove(old)
-    for n in ["Резак_ворот", "Резак_окна", "Резак_двери",
-              "Резак_ворот_сзади", "Резак_окна_сзади"]:
+    for n in FRONT_CUTTERS:
         c = bpy.data.objects.get(n)
         if c:
             c.hide_render = True
             c.hide_set(True)
+
+def mirror_to_back(src_name, new_name, a):
+    """Копия детали фасада на задний торец: y -> a - y (зеркало), нормали перевёрнуты."""
+    src = bpy.data.objects.get(src_name)
+    if not src:
+        return None
+    me = bpy.data.meshes.new(new_name)
+    bm = bmesh.new()
+    bm.from_mesh(src.data)
+    mw = src.matrix_world
+    for v in bm.verts:
+        w = mw @ v.co
+        v.co = Vector((w.x, a - w.y, w.z))
+    bmesh.ops.reverse_faces(bm, faces=bm.faces)
+    bm.to_mesh(me)
+    bm.free()
+    for mat in src.data.materials:
+        me.materials.append(mat)
+    for p in me.polygons:
+        p.use_smooth = False
+    ob = bpy.data.objects.new(new_name, me)
+    for c in src.users_collection:
+        c.objects.link(ob)
+    ob.parent = src.parent
+    return ob
+
+def add_back_trims():
+    # Тот же декор, что на фасаде: ветровые доски, колени, заглушка конька,
+    # угловые наличники — зеркально на задний торец.
+    for n in ["Ветровая_верх_лево", "Ветровая_верх_право",
+              "Ветровая_низ_лево", "Ветровая_низ_право",
+              "Колено_фасад_лево", "Колено_фасад_право", "Заглушка_конька"]:
+        mirror_to_back(n, n.replace("Ветровая", "Ветровая_зад").replace("Колено_фасад", "Колено_зад")
+                          .replace("Заглушка_конька", "Заглушка_конька_зад"), 4.33)
+    for n in ["Угол_лево", "Угол_право"]:
+        mirror_to_back(n, n + "_зад", 4.45)
 
 def add_fence():
     bm = bmesh.new()
@@ -247,6 +303,22 @@ def setup_render():
     except Exception:
         pass
     sc.view_settings.exposure = -0.3
+    # задняя стена теперь сплошная — внутри нужен свой свет, иначе сквозь
+    # проёмы видна чёрная коробка
+    low = bpy.data.objects.get("Свет_внутри")
+    if low:
+        low.data.energy = 260
+        low.data.shadow_soft_size = 0.3
+        low.visible_camera = False
+    if not bpy.data.objects.get("Свет_сеновал"):
+        ld = bpy.data.lights.new("Свет_сеновал", 'POINT')
+        ld.energy = 160
+        ld.color = (1.0, 0.80, 0.55)
+        ld.shadow_soft_size = 0.3
+        lo = bpy.data.objects.new("Свет_сеновал", ld)
+        bpy.context.scene.collection.objects.link(lo)
+        lo.location = (0.0, 2.3, 3.5)
+        lo.visible_camera = False
     sun = bpy.data.objects.get("Солнце")
     if sun:
         sun.data.energy = 3.0
@@ -258,13 +330,13 @@ def setup_render():
         nt.nodes.remove(n)
     out = nt.nodes.new("ShaderNodeOutputWorld")
     sky = nt.nodes.new("ShaderNodeTexSky")
-    try:
-        sky.sky_type = 'NISHITA'
-        sky.sun_disc = False
-        sky.sun_elevation = math.radians(40)
-        sky.sun_rotation = math.radians(145)
-    except Exception:
-        pass
+    # Небо — стандартное для Blender 5.x («многократное рассеяние»), солнце
+    # низко (15°) позади амбара. Именно такой свет был на всех принятых
+    # кадрах, поэтому параметры не меняем, а лишь фиксируем явно.
+    sky.sky_type = 'MULTIPLE_SCATTERING'
+    sky.sun_disc = True
+    sky.sun_elevation = math.radians(15)
+    sky.sun_rotation = 0.0
     bg_cam = nt.nodes.new("ShaderNodeBackground")
     bg_cam.inputs["Strength"].default_value = 1.0
     bg_light = nt.nodes.new("ShaderNodeBackground")
@@ -278,28 +350,87 @@ def setup_render():
     nt.links.new(bg_cam.outputs["Background"], mix.inputs[2])
     nt.links.new(mix.outputs["Shader"], out.inputs["Surface"])
 
+def check_back_wall():
+    """Лучи с тыла по всей ширине: должны упираться в заднюю стену/обшивку,
+    а не уходить внутрь амбара."""
+    bpy.context.view_layer.update()
+    dg = bpy.context.evaluated_depsgraph_get()
+    ok = True
+    pts = [(-2.6, 0.5), (-1.0, 0.5), (0.0, 0.5), (1.0, 0.5), (2.6, 0.5),
+           (-2.6, 1.6), (0.0, 1.6), (2.6, 1.6),
+           (-1.6, 3.0), (0.0, 3.0), (1.6, 3.0),
+           (-1.0, 4.3), (0.0, 4.3), (1.0, 4.3),
+           (0.0, 4.9)]
+    for x, z in pts:
+        hit, loc, nrm, idx, ob, mw = bpy.context.scene.ray_cast(
+            dg, Vector((x, 9.0, z)), Vector((0, -1, 0)), distance=20)
+        name = ob.name if ob else None
+        good = bool(ob) and ob.name in ("Обшивка_доски", "Стена_задняя") and loc.y > 4.2
+        ok = ok and good
+        print("  back ray x=%5.2f z=%4.2f -> %-16s y=%.3f %s" % (x, z, name, loc.y if hit else -99, "ok" if good else "!!!"))
+    print("BACK_WALL_CLOSED" if ok else "BACK_WALL_HAS_HOLES")
+    # а передние проёмы по-прежнему сквозные
+    for label, (x, z) in {"ворота": (0.0, 1.1), "окно": (0.0, 3.1), "дверь": (-2.08, 0.9)}.items():
+        hit, loc, nrm, idx, ob, mw = bpy.context.scene.ray_cast(
+            dg, Vector((x, -3.5, z)), Vector((0, 1, 0)), distance=20)
+        print("  front", label, "->", ob.name if ob else None, "y=%.2f" % (loc.y if hit else -99),
+              "OPEN" if (ob and loc.y > 0.5) else "BLOCKED")
+    return ok
+
 def main():
+    import os
+    mode = os.environ.get("BARN_MODE", "final")
     open_scene()
     paint_all()
     add_roof_boards()
     add_wall_siding()
     cut_openings()
+    close_back_wall()
     bake_openings()
+    add_back_trims()
     add_fence()
     setup_render()
-    import os
-    os.makedirs(OUT + "/картинки", exist_ok=True)
+    check_back_wall()
+    sc = bpy.context.scene
+    sc["версия"] = "v3: задняя стена на месте (сплошная, с обшивкой); проёмы фасада сквозные"
+    EXP = -0.3
     shots = [
-        ("амбар_финал_фасад",  (-8.5, -11.5, 3.4), (0, 0, 2.2), 45),
-        ("амбар_финал_бок",    ( 11.5, -7.0, 3.0), (0, 1.5, 2.2), 45),
-        ("амбар_финал_общий",  (-13.0, -13.0, 5.5), (0, 0.5, 2.0), 40),
-        ("амбар_финал_забор",  ( 3.0, -9.5, 1.8), (-1.0, 0, 1.6), 40),
+        # имя, камера, цель, фокус, экспозиция
+        ("амбар_финал_фасад",     (-8.5, -11.5, 3.4), (0, 0, 2.2),      45, EXP),
+        ("амбар_финал_бок",       ( 11.5, -7.0, 3.0), (0, 1.5, 2.2),    45, EXP),
+        ("амбар_финал_общий",     (-13.0, -13.0, 5.5), (0, 0.5, 2.0),   40, EXP),
+        ("амбар_финал_забор",     ( 3.0, -9.5, 1.8), (-1.0, 0, 1.6),    40, EXP),
+        # задние кадры: низкое солнце стоит сзади и бьёт в заднюю стену —
+        # экспозицию на кадр убавляем, чтобы стена не пересвечивалась
+        ("амбар_финал_зад",       ( 5.0, 11.2, 3.0), (-0.4, 4.0, 2.5),  30, -0.9),
+        ("амбар_финал_зад_слева", (-7.5, 10.5, 5.5), (0.0, 3.0, 2.6),   32, -0.9),
     ]
-    for name, loc, tgt, lens in shots:
+    only = [x for x in os.environ.get("BARN_ONLY", "").split(",") if x]
+    cams = {}
+    for name, loc, tgt, lens, ex in shots:
         shot(name, loc, tgt, lens)
-        bpy.context.scene.render.filepath = OUT + "/картинки/" + name + ".png"
+        cams[name] = sc.camera
+    if mode == "preview":
+        sc.render.resolution_x, sc.render.resolution_y = 800, 500
+        sc.cycles.samples = 24
+        outdir = "/tmp/prev"
+    else:
+        outdir = OUT + "/картинки"
+    os.makedirs(outdir, exist_ok=True)
+    for name, loc, tgt, lens, ex in shots:
+        if only and name not in only:
+            continue
+        sc.camera = cams[name]
+        sc.view_settings.exposure = ex
+        sc.render.filepath = outdir + "/" + name + ".png"
         bpy.ops.render.render(write_still=True)
-    bpy.ops.wm.save_as_mainfile(filepath=OUT + "/дз_амбар_финал.blend")
+        print("RENDERED", name, flush=True)
+    sc.view_settings.exposure = EXP
+    sc.camera = cams["амбар_финал_общий"]
+    if mode != "preview":
+        bpy.ops.wm.save_as_mainfile(filepath=OUT + "/дз_амбар_финал.blend")
+    else:
+        bpy.ops.wm.save_as_mainfile(filepath="/tmp/prev/preview.blend")
     print("BARN_DONE")
 
 main()
