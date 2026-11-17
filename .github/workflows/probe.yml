@@ -1,7 +1,9 @@
 name: Probe (temporary)
 
 on:
-  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/probe.yml'
 
 permissions:
   contents: write
@@ -19,7 +21,7 @@ jobs:
       - name: Write marker and push back
         run: |
           set -euo pipefail
-          echo "probe ok $(date -u +%FT%TZ) ref=${GITHUB_REF}" > probe_result.txt
+          echo "probe ok $(date -u +%FT%TZ) ref=${GITHUB_REF} sha=${GITHUB_SHA}" > probe_result.txt
           git config user.name "arena-agent"
           git config user.email "arena-agent@users.noreply.github.com"
           git add probe_result.txt
