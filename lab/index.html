@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лаборатория «Гео-цирк» — Blender 5.3.0</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="dot"></span><b>ЛАБОРАТОРИЯ</b> / ГЕО-ЦИРК</div>
+  <div class="stats" id="topstats">загрузка данных…</div>
+  <div class="links">
+    <a href="https://github.com/maksummatatov10-spec1231/blender/tree/arena/758e5991-blender" target="_blank">ветка на GitHub</a>
+    <a href="https://github.com/maksummatatov10-spec1231/blender/releases/tag/geo-cartoon-v1.0" target="_blank">релиз с файлами</a>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="side" id="nav">
+    <button data-tab="overview" class="active">Обзор</button>
+    <button data-tab="frames">Кадры <em>1–120</em></button>
+    <button data-tab="paths">Траектории</button>
+    <button data-tab="rig">Скелет / кости</button>
+    <button data-tab="principles">Принципы анимации</button>
+    <button data-tab="checks">Проверки / F-кривые</button>
+    <button data-tab="images">Изображения</button>
+    <button data-tab="sources">Источники</button>
+  </nav>
+
+  <main class="content">
+    <section id="overview" class="tab active"></section>
+    <section id="frames" class="tab"></section>
+    <section id="paths" class="tab"></section>
+    <section id="rig" class="tab"></section>
+    <section id="principles" class="tab"></section>
+    <section id="checks" class="tab"></section>
+    <section id="images" class="tab"></section>
+    <section id="sources" class="tab"></section>
+  </main>
+</div>
+
+<footer>Blender 5.3.0 · Cycles CPU · лаборатория читает те же JSON, что сгенерировал Blender · все кадры отслеживаются постоянно</footer>
+<script src="app.js"></script>
+</body>
+</html>

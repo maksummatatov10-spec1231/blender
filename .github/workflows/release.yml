@@ -1,0 +1,74 @@
+name: Publish Geo Circus release
+
+on:
+  push:
+    paths:
+      - '.github/workflows/release.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout deliverables
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 1
+
+      - name: Verify every asset is present
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in geo_cartoon.mp4 geo_cartoon.blend renders_frames.zip \
+                   renders/screenshots/contact_sheet.png renders/screenshots/all_frames.png \
+                   renders/screenshots/skeleton.png renders/screenshots/motion_paths.png \
+                   renders/screenshots/skeleton_overlay.png \
+                   renders/screenshots/frame_0001.png renders/screenshots/frame_0044.png \
+                   renders/screenshots/frame_0120.png RELEASE_NOTES.md; do
+            test -s "$f" || { echo "MISSING $f"; exit 1; }
+            echo "OK $(stat -c%s "$f") $f"
+          done
+
+      - name: Create release with MP4, .blend and images
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          REPO="${{ github.repository }}"
+          TAG="geo-cartoon-v1.0"
+          URL="https://github.com/${REPO}/releases/tag/${TAG}"
+          # idempotent: clean a previous attempt (tag + release)
+          git push origin --delete "refs/tags/${TAG}" 2>/dev/null || true
+          gh release delete "$TAG" --repo "$REPO" --yes --cleanup-tag 2>/dev/null || true
+          gh release create "$TAG" --repo "$REPO" \
+            --title "Гео-цирк — мультфильм на Blender 5.3.0" \
+            --notes-file RELEASE_NOTES.md \
+            geo_cartoon.mp4 \
+            geo_cartoon.blend \
+            renders_frames.zip \
+            renders/screenshots/contact_sheet.png \
+            renders/screenshots/all_frames.png \
+            renders/screenshots/skeleton.png \
+            renders/screenshots/motion_paths.png \
+            renders/screenshots/skeleton_overlay.png \
+            renders/screenshots/frame_0001.png \
+            renders/screenshots/frame_0044.png \
+            renders/screenshots/frame_0120.png
+          echo "$URL" > release_url.txt
+          echo "RELEASE_URL=$URL" | tee -a "$GITHUB_ENV"
+          gh release view "$TAG" --repo "$REPO" --json url,tagName,assets --jq '.url, (.assets[].name)'
+
+      - name: Record the release URL in the branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "arena-agent"
+          git config user.email "arena-agent@users.noreply.github.com"
+          git add release_url.txt
+          git commit -m "docs: record Geo Circus release URL [skip ci]" || echo "nothing to commit"
+          git push origin HEAD:"${GITHUB_REF#refs/heads/}"

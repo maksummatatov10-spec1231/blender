@@ -1,0 +1,72 @@
+{
+ "checks": [
+  {
+   "name": "Все координаты конечные (нет NaN/Inf)",
+   "pass": true,
+   "detail": "проверено 120 кадров"
+  },
+  {
+   "name": "Покрытие всеми кадрами",
+   "pass": true,
+   "detail": "120 / 120"
+  },
+  {
+   "name": "Непрерывность траектории: hero_root",
+   "pass": true,
+   "detail": "max speed 3.88 units/s, 120 точек"
+  },
+  {
+   "name": "Непрерывность траектории: ball",
+   "pass": true,
+   "detail": "max speed 3.96 units/s, 120 точек"
+  },
+  {
+   "name": "Непрерывность траектории: cone",
+   "pass": true,
+   "detail": "max speed 2.60 units/s, 120 точек"
+  },
+  {
+   "name": "Непрерывность траектории: torus",
+   "pass": true,
+   "detail": "max speed 0.00 units/s, 120 точек"
+  },
+  {
+   "name": "Squash & stretch сохраняет объём",
+   "pass": true,
+   "detail": "макс. ошибка 0.01254"
+  },
+  {
+   "name": "IK-цели стоп достижимы (длина цепи 0.72)",
+   "pass": true,
+   "detail": "макс. расстояние 0.720"
+  },
+  {
+   "name": "Персонажи остаются в кадре",
+   "pass": true,
+   "detail": "макс. выход за кадр 0.000"
+  },
+  {
+   "name": "Motion Paths рассчитаны в Blender",
+   "pass": true,
+   "detail": "{'object_paths_calculate': 'ok', 'pose_paths_calculate': 'ok'}"
+  },
+  {
+   "name": "Скелет: кости, IK, веса",
+   "pass": true,
+   "detail": "18 костей, 22 привязанных мешей, 3 IK-констрейнта, 30 визуализаторов"
+  }
+ ],
+ "max_speed": {
+  "hero_root": 3.878,
+  "ball": 3.96,
+  "cone": 2.596,
+  "torus": 0.0
+ },
+ "max_accel": {
+  "hero_root": 21.6,
+  "ball": 30.013,
+  "cone": 24.769,
+  "torus": 0.006
+ },
+ "arc_smoothness": {}
+}

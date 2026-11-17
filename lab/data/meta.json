@@ -1,0 +1,2919 @@
+{
+ "blender": "5.3.0",
+ "installer": {
+  "url": "https://github.com/maksummatatov10-spec1231/blender1231/releases/download/install/blender-5.3.0-linux-x64.tar.xz",
+  "size": 406944100,
+  "sha256": "dacb8264197a3f7fda6001285a5a506fc97ee943881261c2c3bd63c882f22e05"
+ },
+ "scene": {
+  "name": "Geo Circus",
+  "fps": 24,
+  "start": 1,
+  "end": 120,
+  "resolution": [
+   960,
+   540
+  ],
+  "engine": "CYCLES",
+  "samples": 24,
+  "denoising": true,
+  "device": "CPU",
+  "duration_seconds": 5.0
+ },
+ "output": {
+  "blend": "geo_cartoon.blend",
+  "mp4": "geo_cartoon.mp4",
+  "frames": "renders/frames/frame_%04d.png"
+ },
+ "rig": {
+  "bones": [
+   {
+    "name": "Root",
+    "parent": null,
+    "deform": true,
+    "head": [
+     0,
+     0,
+     0.25
+    ],
+    "tail": [
+     0,
+     0,
+     0.65
+    ]
+   },
+   {
+    "name": "Hips",
+    "parent": "Root",
+    "deform": true,
+    "head": [
+     0,
+     0,
+     0.9
+    ],
+    "tail": [
+     0,
+     0,
+     1.1
+    ]
+   },
+   {
+    "name": "Spine",
+    "parent": "Hips",
+    "deform": true,
+    "head": [
+     0,
+     0,
+     1.1
+    ],
+    "tail": [
+     0,
+     0,
+     1.8
+    ]
+   },
+   {
+    "name": "Head",
+    "parent": "Spine",
+    "deform": true,
+    "head": [
+     0,
+     0,
+     1.8
+    ],
+    "tail": [
+     0,
+     0,
+     2.55
+    ]
+   },
+   {
+    "name": "Antenna",
+    "parent": "Head",
+    "deform": true,
+    "head": [
+     0,
+     0,
+     2.55
+    ],
+    "tail": [
+     0,
+     0,
+     3.0
+    ]
+   },
+   {
+    "name": "Arm.L",
+    "parent": "Spine",
+    "deform": true,
+    "head": [
+     -0.62,
+     0,
+     1.75
+    ],
+    "tail": [
+     -0.85,
+     0,
+     1.35
+    ]
+   },
+   {
+    "name": "Forearm.L",
+    "parent": "Arm.L",
+    "deform": true,
+    "head": [
+     -0.85,
+     0,
+     1.35
+    ],
+    "tail": [
+     -0.95,
+     0,
+     1.05
+    ]
+   },
+   {
+    "name": "Arm.R",
+    "parent": "Spine",
+    "deform": true,
+    "head": [
+     0.62,
+     0,
+     1.75
+    ],
+    "tail": [
+     0.85,
+     0,
+     1.35
+    ]
+   },
+   {
+    "name": "Forearm.R",
+    "parent": "Arm.R",
+    "deform": true,
+    "head": [
+     0.85,
+     0,
+     1.35
+    ],
+    "tail": [
+     0.95,
+     0,
+     1.05
+    ]
+   },
+   {
+    "name": "Thigh.L",
+    "parent": "Hips",
+    "deform": true,
+    "head": [
+     -0.32,
+     0,
+     0.9
+    ],
+    "tail": [
+     -0.32,
+     0,
+     0.55
+    ]
+   },
+   {
+    "name": "Shin.L",
+    "parent": "Thigh.L",
+    "deform": true,
+    "head": [
+     -0.32,
+     0,
+     0.55
+    ],
+    "tail": [
+     -0.32,
+     0,
+     0.18
+    ]
+   },
+   {
+    "name": "Foot.L",
+    "parent": "Shin.L",
+    "deform": true,
+    "head": [
+     -0.32,
+     0,
+     0.18
+    ],
+    "tail": [
+     -0.32,
+     -0.25,
+     0.12
+    ]
+   },
+   {
+    "name": "Thigh.R",
+    "parent": "Hips",
+    "deform": true,
+    "head": [
+     0.32,
+     0,
+     0.9
+    ],
+    "tail": [
+     0.32,
+     0,
+     0.55
+    ]
+   },
+   {
+    "name": "Shin.R",
+    "parent": "Thigh.R",
+    "deform": true,
+    "head": [
+     0.32,
+     0,
+     0.55
+    ],
+    "tail": [
+     0.32,
+     0,
+     0.18
+    ]
+   },
+   {
+    "name": "Foot.R",
+    "parent": "Shin.R",
+    "deform": true,
+    "head": [
+     0.32,
+     0,
+     0.18
+    ],
+    "tail": [
+     0.32,
+     -0.25,
+     0.12
+    ]
+   },
+   {
+    "name": "IK.Foot.L",
+    "parent": "Root",
+    "deform": false,
+    "head": [
+     -0.32,
+     0,
+     0.18
+    ],
+    "tail": [
+     -0.32,
+     0,
+     0.42
+    ]
+   },
+   {
+    "name": "IK.Foot.R",
+    "parent": "Root",
+    "deform": false,
+    "head": [
+     0.32,
+     0,
+     0.18
+    ],
+    "tail": [
+     0.32,
+     0,
+     0.42
+    ]
+   },
+   {
+    "name": "IK.Hand.R",
+    "parent": "Root",
+    "deform": false,
+    "head": [
+     0.95,
+     0,
+     1.05
+    ],
+    "tail": [
+     0.95,
+     0,
+     1.35
+    ]
+   }
+  ],
+  "constraints": [
+   {
+    "bone": "Forearm.R",
+    "constraint": "IK waving hand",
+    "type": "IK",
+    "subtarget": "IK.Hand.R",
+    "chain_count": 2,
+    "influence": 0.55
+   },
+   {
+    "bone": "Shin.L",
+    "constraint": "IK planted foot L",
+    "type": "IK",
+    "subtarget": "IK.Foot.L",
+    "chain_count": 2,
+    "influence": 1.0
+   },
+   {
+    "bone": "Shin.R",
+    "constraint": "IK planted foot R",
+    "type": "IK",
+    "subtarget": "IK.Foot.R",
+    "chain_count": 2,
+    "influence": 1.0
+   }
+  ],
+  "skinned_meshes": [
+   "Hero_Body",
+   "Hero_Head",
+   "Hero_Belly",
+   "EyeWhite.L",
+   "Pupil.L",
+   "EyeWhite.R",
+   "Pupil.R",
+   "Smile",
+   "Antenna_Stalk",
+   "Antenna_Tip",
+   "Arm.L",
+   "Forearm.L",
+   "Hand.L",
+   "Thigh.L",
+   "Shin.L",
+   "Foot.L",
+   "Arm.R",
+   "Forearm.R",
+   "Hand.R",
+   "Thigh.R",
+   "Shin.R",
+   "Foot.R"
+  ],
+  "bone_visualizers": [
+   "BONEVIZ_Root",
+   "BONEVIZ_JOINT_Root",
+   "BONEVIZ_Hips",
+   "BONEVIZ_JOINT_Hips",
+   "BONEVIZ_Spine",
+   "BONEVIZ_JOINT_Spine",
+   "BONEVIZ_Head",
+   "BONEVIZ_JOINT_Head",
+   "BONEVIZ_Antenna",
+   "BONEVIZ_JOINT_Antenna",
+   "BONEVIZ_Arm.L",
+   "BONEVIZ_JOINT_Arm.L",
+   "BONEVIZ_Forearm.L",
+   "BONEVIZ_JOINT_Forearm.L",
+   "BONEVIZ_Arm.R",
+   "BONEVIZ_JOINT_Arm.R",
+   "BONEVIZ_Forearm.R",
+   "BONEVIZ_JOINT_Forearm.R",
+   "BONEVIZ_Thigh.L",
+   "BONEVIZ_JOINT_Thigh.L",
+   "BONEVIZ_Shin.L",
+   "BONEVIZ_JOINT_Shin.L",
+   "BONEVIZ_Foot.L",
+   "BONEVIZ_JOINT_Foot.L",
+   "BONEVIZ_Thigh.R",
+   "BONEVIZ_JOINT_Thigh.R",
+   "BONEVIZ_Shin.R",
+   "BONEVIZ_JOINT_Shin.R",
+   "BONEVIZ_Foot.R",
+   "BONEVIZ_JOINT_Foot.R"
+  ]
+ },
+ "fcurves": [
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Root\"].location",
+   "index": 0,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Root\"].location",
+   "index": 1,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Root\"].location",
+   "index": 2,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Spine\"].scale",
+   "index": 0,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Spine\"].scale",
+   "index": 1,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Spine\"].scale",
+   "index": 2,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Head\"].scale",
+   "index": 0,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Head\"].scale",
+   "index": 1,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Head\"].scale",
+   "index": 2,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Head\"].rotation_euler",
+   "index": 0,
+   "keys": 13,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Head\"].rotation_euler",
+   "index": 1,
+   "keys": 13,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Head\"].rotation_euler",
+   "index": 2,
+   "keys": 13,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Antenna\"].rotation_euler",
+   "index": 0,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Antenna\"].rotation_euler",
+   "index": 1,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Antenna\"].rotation_euler",
+   "index": 2,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Foot.L\"].location",
+   "index": 0,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Foot.L\"].location",
+   "index": 1,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Foot.L\"].location",
+   "index": 2,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Foot.R\"].location",
+   "index": 0,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Foot.R\"].location",
+   "index": 1,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Foot.R\"].location",
+   "index": 2,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Hand.R\"].location",
+   "index": 0,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Hand.R\"].location",
+   "index": 1,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Hand.R\"].location",
+   "index": 2,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Arm.R\"].rotation_euler",
+   "index": 0,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Arm.R\"].rotation_euler",
+   "index": 1,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Arm.R\"].rotation_euler",
+   "index": 2,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Forearm.R\"].rotation_euler",
+   "index": 0,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Forearm.R\"].rotation_euler",
+   "index": 1,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Forearm.R\"].rotation_euler",
+   "index": 2,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Arm.L\"].rotation_euler",
+   "index": 0,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Arm.L\"].rotation_euler",
+   "index": 1,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Arm.L\"].rotation_euler",
+   "index": 2,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Ball_Sphere",
+   "data_path": "location",
+   "index": 0,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Ball_Sphere",
+   "data_path": "location",
+   "index": 1,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Ball_Sphere",
+   "data_path": "location",
+   "index": 2,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Ball_Sphere",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Ball_Sphere",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Ball_Sphere",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Ball_Sphere",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Ball_Sphere",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Ball_Sphere",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Camera",
+   "data_path": "location",
+   "index": 0,
+   "keys": 3,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Camera",
+   "data_path": "location",
+   "index": 1,
+   "keys": 3,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Camera",
+   "data_path": "location",
+   "index": 2,
+   "keys": 3,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Chest_Lid",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Chest_Lid",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Chest_Lid",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Chest_Lid",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Chest_Lid",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Chest_Lid",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Cone_Grump",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Cone_Grump",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Cone_Grump",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Cone_Grump",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Cone_Grump",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Cone_Grump",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_00",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_00",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_00",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_00",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_00",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_00",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_00",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_00",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_00",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_01",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_01",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_01",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_01",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_01",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_01",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_01",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_01",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_01",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_02",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_02",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_02",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_02",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_02",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_02",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_02",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_02",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_02",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_03",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_03",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_03",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_03",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_03",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_03",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_03",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_03",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_03",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_04",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_04",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_04",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_04",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_04",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_04",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_04",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_04",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_04",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_05",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_05",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_05",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_05",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_05",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_05",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_05",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_05",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_05",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_06",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_06",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_06",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_06",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_06",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_06",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_06",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_06",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_06",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_07",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_07",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_07",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_07",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_07",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_07",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_07",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_07",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_07",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_08",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_08",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_08",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_08",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_08",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_08",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_08",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_08",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_08",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_09",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_09",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_09",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_09",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_09",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_09",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_09",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_09",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_09",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_10",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_10",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_10",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_10",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_10",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_10",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_10",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_10",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_10",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_11",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_11",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_11",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_11",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_11",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_11",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_11",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_11",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_11",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_12",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_12",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_12",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_12",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_12",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_12",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_12",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_12",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_12",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_13",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_13",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_13",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_13",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_13",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_13",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_13",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_13",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_13",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_14",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_14",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_14",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_14",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_14",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_14",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_14",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_14",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_14",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_15",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_15",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_15",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_15",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_15",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_15",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_15",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_15",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_15",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_16",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_16",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_16",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_16",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_16",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_16",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_16",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_16",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_16",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_17",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_17",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_17",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_17",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_17",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_17",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_17",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_17",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_17",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_18",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_18",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_18",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_18",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_18",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_18",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_18",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_18",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_18",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_19",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_19",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_19",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_19",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_19",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_19",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_19",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_19",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_19",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_20",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_20",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_20",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_20",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_20",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_20",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_20",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_20",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_20",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_21",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_21",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_21",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_21",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_21",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_21",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_21",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_21",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_21",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_22",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_22",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_22",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_22",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_22",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_22",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_22",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_22",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_22",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_23",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_23",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_23",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_23",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_23",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_23",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_23",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_23",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_23",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_24",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_24",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_24",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_24",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_24",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_24",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_24",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_24",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_24",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_25",
+   "data_path": "location",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_25",
+   "data_path": "location",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_25",
+   "data_path": "location",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_25",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_25",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_25",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 5,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_25",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_25",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Confetti_25",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 1,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Root\"].location",
+   "index": 0,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Root\"].location",
+   "index": 1,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Root\"].location",
+   "index": 2,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Spine\"].scale",
+   "index": 0,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Spine\"].scale",
+   "index": 1,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Spine\"].scale",
+   "index": 2,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Head\"].scale",
+   "index": 0,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Head\"].scale",
+   "index": 1,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Head\"].scale",
+   "index": 2,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Head\"].rotation_euler",
+   "index": 0,
+   "keys": 13,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Head\"].rotation_euler",
+   "index": 1,
+   "keys": 13,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Head\"].rotation_euler",
+   "index": 2,
+   "keys": 13,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Antenna\"].rotation_euler",
+   "index": 0,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Antenna\"].rotation_euler",
+   "index": 1,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Antenna\"].rotation_euler",
+   "index": 2,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Foot.L\"].location",
+   "index": 0,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Foot.L\"].location",
+   "index": 1,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Foot.L\"].location",
+   "index": 2,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Foot.R\"].location",
+   "index": 0,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Foot.R\"].location",
+   "index": 1,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Foot.R\"].location",
+   "index": 2,
+   "keys": 16,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Hand.R\"].location",
+   "index": 0,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Hand.R\"].location",
+   "index": 1,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"IK.Hand.R\"].location",
+   "index": 2,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Arm.R\"].rotation_euler",
+   "index": 0,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Arm.R\"].rotation_euler",
+   "index": 1,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Arm.R\"].rotation_euler",
+   "index": 2,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Forearm.R\"].rotation_euler",
+   "index": 0,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Forearm.R\"].rotation_euler",
+   "index": 1,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Forearm.R\"].rotation_euler",
+   "index": 2,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Arm.L\"].rotation_euler",
+   "index": 0,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Arm.L\"].rotation_euler",
+   "index": 1,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "HeroRig",
+   "data_path": "pose.bones[\"Arm.L\"].rotation_euler",
+   "index": 2,
+   "keys": 8,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Torus_Hoop",
+   "data_path": "rotation_euler",
+   "index": 0,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Torus_Hoop",
+   "data_path": "rotation_euler",
+   "index": 1,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Torus_Hoop",
+   "data_path": "rotation_euler",
+   "index": 2,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Torus_Hoop",
+   "data_path": "scale",
+   "index": 0,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Torus_Hoop",
+   "data_path": "scale",
+   "index": 1,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Torus_Hoop",
+   "data_path": "scale",
+   "index": 2,
+   "keys": 15,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Blink shape keys",
+   "data_path": "key_blocks[\"Blink\"].value",
+   "index": 0,
+   "keys": 12,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Blink shape keys",
+   "data_path": "key_blocks[\"Blink\"].value",
+   "index": 0,
+   "keys": 12,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Blink shape keys",
+   "data_path": "key_blocks[\"Blink\"].value",
+   "index": 0,
+   "keys": 12,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  },
+  {
+   "id": "Blink shape keys",
+   "data_path": "key_blocks[\"Blink\"].value",
+   "index": 0,
+   "keys": 12,
+   "interpolation": "BEZIER / AUTO_CLAMPED"
+  }
+ ],
+ "motion_paths": {
+  "object_paths_calculate": "ok",
+  "pose_paths_calculate": "ok"
+ },
+ "principles": [
+  {
+   "name": "Squash & Stretch",
+   "where": "Spine/Head scale + Ball scale",
+   "note": "объём сохранён: xy = 1/sqrt(z)"
+  },
+  {
+   "name": "Anticipation",
+   "where": "кадры 1-20, приседание перед прыжком"
+  },
+  {
+   "name": "Staging",
+   "where": "камера, свет, сундук и кольцо в кадре"
+  },
+  {
+   "name": "Straight Ahead / Pose to Pose",
+   "where": "pose-to-pose: 16 ключевых поз Root"
+  },
+  {
+   "name": "Follow Through & Overlapping",
+   "where": "антенна, голова, предплечье с задержкой"
+  },
+  {
+   "name": "Slow In / Slow Out",
+   "where": "все F-кривые BEZIER + AUTO_CLAMPED"
+  },
+  {
+   "name": "Arcs",
+   "where": "парабола прыжка, отскоки шара, видимые ленты траекторий"
+  },
+  {
+   "name": "Secondary Action",
+   "where": "шар, конус, вращение кольца, конфетти"
+  },
+  {
+   "name": "Timing",
+   "where": "24 fps, 120 кадров = 5 с"
+  },
+  {
+   "name": "Exaggeration",
+   "where": "растяжение 1.24, сжатие 0.72,flip конуса"
+  },
+  {
+   "name": "Solid Drawing",
+   "where": "bevel + weighted normals,_volume-preserving scale"
+  },
+  {
+   "name": "Appeal",
+   "where": "глаза, улыбка, антенна, яркая палитра"
+  }
+ ],
+ "sources": [
+  {
+   "title": "12 principles / character animation mechanics",
+   "url": "https://oboe.com/learn/mastering-3d-worlds-with-blender-nwhftu/character-animation-mechanics-ntnkb6",
+   "takeaway": "Squash & stretch with volume, anticipation, follow-through, slow in/out, arcs, exaggeration; walk-cycle contact/down/passing/up poses."
+  },
+  {
+   "title": "Animate a 3D model in Blender step by step",
+   "url": "https://www.relebook.com/articles/animate-3d-model-blender-step-by-step-guide",
+   "takeaway": "Keyframing + Bezier easing in the Graph Editor; edge loops around joints for clean deformation."
+  },
+  {
+   "title": "Blender character animation tutorial",
+   "url": "https://www.bevelfish.com/blog/blender-character-animation-tutorial",
+   "takeaway": "Apply transforms, origin at the feet, fit the metarig to joints, IK for planted feet, key rig controls, enable Motion Paths to inspect real arcs."
+  },
+  {
+   "title": "Rigify / weight painting / Graph Editor smoothing",
+   "url": "https://gist.ly/youtube-summarizer/mastering-character-animation-a-step-by-step-guide-to-rigging-and-motion-in-blender",
+   "takeaway": "Metarig, auto-normalized weights, smooth F-curves, refine the torso first."
+  },
+  {
+   "title": "Root motion best practice",
+   "url": "https://blenderartists.org/t/best-practices-stay-on-base-or-walk-it-off/1491500",
+   "takeaway": "Avoid stacking Bezier transforms on the root; animate root with care, prefer hips/IK for contact."
+  },
+  {
+   "title": "Blender Python animation (keyframes, F-curves, armatures, IK)",
+   "url": "https://terminalskills.io/skills/blender-animation",
+   "takeaway": "keyframe_insert, BEZIER/EASE_IN_OUT, CYCLES/NOISE modifiers, edit_bones, IK constraint, blender --background --python."
+  },
+  {
+   "title": "Blender 5.x F-curve API change",
+   "url": "https://blenderartists.org/t/how-to-access-fcurves-in-blender-5-0/1623022",
+   "takeaway": "Action.fcurves removed in 5.0; use bpy_extras.anim_utils.action_get_channelbag_for_slot(action, slot)."
+  },
+  {
+   "title": "Blender Python API: Object Operators / Motion Paths",
+   "url": "https://docs.blender.org/api/current/bpy.ops.object.html",
+   "takeaway": "bpy.ops.object.paths_calculate(display_type='RANGE', range='SCENE'); pose.paths_calculate with bake_location."
+  },
+  {
+   "title": "Blender Python API: SceneEEVEE",
+   "url": "https://docs.blender.org/api/current/bpy.types.SceneEEVEE.html",
+   "takeaway": "taa_render_samples 64-128, motion_blur_steps, soft shadows / ray tracing for quality."
+  },
+  {
+   "title": "Blender Render Automation (5.0 media_type / FFMPEG)",
+   "url": "https://terminalskills.io/skills/blender-render-automation",
+   "takeaway": "Set image_settings.media_type='VIDEO' before file_format='FFMPEG'; MPEG4+H264; Cycles CPU is reliable headless."
+  },
+  {
+   "title": "Eevee render quality guide",
+   "url": "https://renderday.com/blog/speed-up-your-renders",
+   "takeaway": "64-128 samples for final, TAA, high bitdepth, soft shadows, bloom, DOF f/1.4-2.8, motion blur shutter 0.5."
+  },
+  {
+   "title": "Bake Motion Path to curve",
+   "url": "https://blenderartists.org/t/bake-motion-path/492835",
+   "takeaway": "Sample matrix_world per frame and bake a visible Bezier/POLY curve to inspect trajectories."
+  },
+  {
+   "title": "FFMPEG encoding via Python",
+   "url": "https://blender.stackexchange.com/questions/106659/change-encoding-settings-through-python-api",
+   "takeaway": "render.ffmpeg.format='MPEG4', codec='H264', constant_rate_factor, ffmpeg_preset."
+  }
+ ],
+ "objects_count": 113,
+ "qa": {
+  "checks": [
+   {
+    "name": "Все координаты конечные (нет NaN/Inf)",
+    "pass": true,
+    "detail": "проверено 120 кадров"
+   },
+   {
+    "name": "Покрытие всеми кадрами",
+    "pass": true,
+    "detail": "120 / 120"
+   },
+   {
+    "name": "Непрерывность траектории: hero_root",
+    "pass": true,
+    "detail": "max speed 3.88 units/s, 120 точек"
+   },
+   {
+    "name": "Непрерывность траектории: ball",
+    "pass": true,
+    "detail": "max speed 3.96 units/s, 120 точек"
+   },
+   {
+    "name": "Непрерывность траектории: cone",
+    "pass": true,
+    "detail": "max speed 2.60 units/s, 120 точек"
+   },
+   {
+    "name": "Непрерывность траектории: torus",
+    "pass": true,
+    "detail": "max speed 0.00 units/s, 120 точек"
+   },
+   {
+    "name": "Squash & stretch сохраняет объём",
+    "pass": true,
+    "detail": "макс. ошибка 0.01254"
+   },
+   {
+    "name": "IK-цели стоп достижимы (длина цепи 0.72)",
+    "pass": true,
+    "detail": "макс. расстояние 0.720"
+   },
+   {
+    "name": "Персонажи остаются в кадре",
+    "pass": true,
+    "detail": "макс. выход за кадр 0.000"
+   },
+   {
+    "name": "Motion Paths рассчитаны в Blender",
+    "pass": true,
+    "detail": "{'object_paths_calculate': 'ok', 'pose_paths_calculate': 'ok'}"
+   },
+   {
+    "name": "Скелет: кости, IK, веса",
+    "pass": true,
+    "detail": "18 костей, 22 привязанных мешей, 3 IK-констрейнта, 30 визуализаторов"
+   }
+  ],
+  "max_speed": {
+   "hero_root": 3.878,
+   "ball": 3.96,
+   "cone": 2.596,
+   "torus": 0.0
+  },
+  "max_accel": {
+   "hero_root": 21.6,
+   "ball": 30.013,
+   "cone": 24.769,
+   "torus": 0.006
+  },
+  "arc_smoothness": {}
+ }
+}
