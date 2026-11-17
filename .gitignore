@@ -1,0 +1,11 @@
+# Local toolchain / virtualenv / downloaded installers — never commit
+tools/
+*.tar.xz
+*.whl
+__pycache__/
+*.pyc
+.blend1
+.DS_Store
+
+# Generated render scratch (kept out of git; final deliverables are committed explicitly)
+renders/scratch/
