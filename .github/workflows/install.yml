@@ -1,0 +1,109 @@
+name: Fetch Blender 5.3.0 installer from user release
+
+on:
+  push:
+    paths:
+      - '.github/workflows/install.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 1
+
+      - name: Download EXACT Blender 5.3.0 release asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://github.com/maksummatatov10-spec1231/blender1231/releases/download/install/blender-5.3.0-linux-x64.tar.xz"
+          echo "Downloading $URL"
+          curl -fL --retry 6 --retry-delay 5 --connect-timeout 30 --max-time 1200 \
+            -o /tmp/blender-5.3.0-linux-x64.tar.xz "$URL"
+          SIZE=$(stat -c%s /tmp/blender-5.3.0-linux-x64.tar.xz)
+          echo "Downloaded bytes: $SIZE"
+          test "$SIZE" = "406944100"
+          sha256sum /tmp/blender-5.3.0-linux-x64.tar.xz | tee installer_sha256.txt
+
+      - name: Verify it really is Blender 5.3.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/bcheck
+          tar -xf /tmp/blender-5.3.0-linux-x64.tar.xz -C /tmp/bcheck
+          BIN=$(find /tmp/bcheck -maxdepth 3 -type f -name blender -perm -u+x | head -1)
+          echo "Binary: $BIN"
+          chmod +x "$BIN"
+          "$BIN" --version | tee blender_version.txt
+          grep -q "5.3.0" blender_version.txt
+
+      - name: Split installer into git-friendly chunks
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p installer_chunks
+          split -b 32m -d -a 3 /tmp/blender-5.3.0-linux-x64.tar.xz installer_chunks/part_
+          python3 - <<'PY' > installer_chunks/manifest.json
+          import hashlib, json, os, glob
+          p = "/tmp/blender-5.3.0-linux-x64.tar.xz"
+          h = hashlib.sha256()
+          with open(p, "rb") as f:
+              for block in iter(lambda: f.read(1 << 20), b""):
+                  h.update(block)
+          parts = sorted(glob.glob("installer_chunks/part_*"))
+          print(json.dumps({
+              "source": "https://github.com/maksummatatov10-spec1231/blender1231/releases/download/install/blender-5.3.0-linux-x64.tar.xz",
+              "filename": "blender-5.3.0-linux-x64.tar.xz",
+              "size": os.path.getsize(p),
+              "sha256": h.hexdigest(),
+              "chunk_size": 32 * 1024 * 1024,
+              "chunks": [os.path.basename(x) for x in parts],
+          }, indent=2))
+          PY
+          ls -l installer_chunks | head -20
+          du -sh installer_chunks
+
+      - name: Bundle X11/GL runtime libraries for headless sandbox
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
+            libgl1 libglx-mesa0 libgl1-mesa-dri libegl1 libgbm1 libdrm2 \
+            libxrender1 libxfixes3 libxi6 libxkbcommon0 libsm6 libice6 \
+            libx11-6 libxext6 libxrandr2 libxinerama1 libxcursor1 libxxf86vm1 \
+            libxshmfence1 libxau6 libxdmcp6 libxcb1 libexpat1 libuuid1
+          mkdir -p syslibs
+          LIBDIR=/usr/lib/x86_64-linux-gnu
+          cp -L "$LIBDIR"/libGL.so.1* "$LIBDIR"/libEGL.so.1* "$LIBDIR"/libgbm.so.1* \
+                "$LIBDIR"/libdrm.so.2* "$LIBDIR"/libglapi.so.0* "$LIBDIR"/libGLX*.so* \
+                "$LIBDIR"/libGLdispatch.so.0* "$LIBDIR"/libX11.so.6* \
+                "$LIBDIR"/libXext.so.6* "$LIBDIR"/libXrender.so.1* \
+                "$LIBDIR"/libXfixes.so.3* "$LIBDIR"/libXi.so.6* \
+                "$LIBDIR"/libxkbcommon.so.0* "$LIBDIR"/libSM.so.6* \
+                "$LIBDIR"/libICE.so.6* "$LIBDIR"/libxcb.so.1* \
+                "$LIBDIR"/libXau.so.6* "$LIBDIR"/libXdmcp.so.6* \
+                "$LIBDIR"/libXrandr.so.2* "$LIBDIR"/libXinerama.so.1* \
+                "$LIBDIR"/libXcursor.so.1* "$LIBDIR"/libXxf86vm.so.1* \
+                "$LIBDIR"/libxshmfence.so.1* "$LIBDIR"/libuuid.so.1* \
+                "$LIBDIR"/libexpat.so.1* syslibs/ 2>/dev/null || true
+          ls syslibs | wc -l
+          tar czf syslibs.tar.gz syslibs
+          ls -lh syslibs.tar.gz
+
+      - name: Push installer chunks back to the working branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "arena-agent"
+          git config user.email "arena-agent@users.noreply.github.com"
+          git add installer_chunks installer_sha256.txt blender_version.txt syslibs.tar.gz
+          git commit -m "chore: mirror Blender 5.3.0 installer from user release [skip ci]"
+          git push origin HEAD:"${GITHUB_REF#refs/heads/}"
