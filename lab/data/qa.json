@@ -1,72 +1,101 @@
 {
  "checks": [
   {
-   "name": "Все координаты конечные (нет NaN/Inf)",
+   "name": "Все координаты конечные",
    "pass": true,
-   "detail": "проверено 120 кадров"
+   "detail": "240 кадров"
   },
   {
    "name": "Покрытие всеми кадрами",
    "pass": true,
-   "detail": "120 / 120"
+   "detail": "240/240"
   },
   {
-   "name": "Непрерывность траектории: hero_root",
+   "name": "Непрерывность траектории: red",
    "pass": true,
-   "detail": "max speed 3.88 units/s, 120 точек"
+   "detail": "max 10.23 u/s"
   },
   {
-   "name": "Непрерывность траектории: ball",
+   "name": "Непрерывность траектории: blue",
    "pass": true,
-   "detail": "max speed 3.96 units/s, 120 точек"
+   "detail": "max 5.20 u/s"
   },
   {
-   "name": "Непрерывность траектории: cone",
+   "name": "Непрерывность траектории: gift",
    "pass": true,
-   "detail": "max speed 2.60 units/s, 120 точек"
+   "detail": "max 10.92 u/s"
   },
   {
-   "name": "Непрерывность траектории: torus",
+   "name": "5 камерных планов через маркеры",
    "pass": true,
-   "detail": "max speed 0.00 units/s, 120 точек"
+   "detail": "{'CamA_Follow': 88, 'CamB_Window': 40, 'CamC_Door': 40, 'CamD_Inside': 36, 'CamE_Gift': 36}"
+  },
+  {
+   "name": "Кольцо РАЗВЁРНУТО по оси X: красный проходит СКВОЗЬ арку",
+   "pass": true,
+   "detail": "кадр 54, макс. радиус робота 1.722 < inner 1.850, orientation=(0, 90°, 0), hole axis=+X"
+  },
+  {
+   "name": "Дверь красного открыта и НЕ закрыта (забыл)",
+   "pass": true,
+   "detail": "угол -1.35 рад на кадре 240"
+  },
+  {
+   "name": "Дверь синего открывается после стука",
+   "pass": true,
+   "detail": "кадр 129 закрыта → кадр 168 открыта"
+  },
+  {
+   "name": "Красный заходит В дверь, а не сквозь стену",
+   "pass": true,
+   "detail": "порог x=6.23, внутри x>6.48"
+  },
+  {
+   "name": "Хлопушка: ленточки вылетают из коробки",
+   "pass": true,
+   "detail": "90 элементов, макс. высота 2.86"
+  },
+  {
+   "name": "IK-цели стоп достижимы",
+   "pass": true,
+   "detail": "макс 0.807, цепь 0.70"
   },
   {
    "name": "Squash & stretch сохраняет объём",
    "pass": true,
-   "detail": "макс. ошибка 0.01254"
+   "detail": "макс. ошибка 0.0082"
   },
   {
-   "name": "IK-цели стоп достижимы (длина цепи 0.72)",
+   "name": "Герои в кадре на всех планах",
    "pass": true,
-   "detail": "макс. расстояние 0.720"
+   "detail": "макс. выход 0.000"
   },
   {
-   "name": "Персонажи остаются в кадре",
+   "name": "Скелеты: кости, IK, веса, визуализаторы",
    "pass": true,
-   "detail": "макс. выход за кадр 0.000"
+   "detail": "23 костей × 2, 93 мешей, 40 визуализаторов"
   },
   {
    "name": "Motion Paths рассчитаны в Blender",
    "pass": true,
-   "detail": "{'object_paths_calculate': 'ok', 'pose_paths_calculate': 'ok'}"
-  },
-  {
-   "name": "Скелет: кости, IK, веса",
-   "pass": true,
-   "detail": "18 костей, 22 привязанных мешей, 3 IK-констрейнта, 30 визуализаторов"
+   "detail": "{'object_paths': 'ok', 'red_pose_paths': 'ok'}"
   }
  ],
  "max_speed": {
-  "hero_root": 3.878,
-  "ball": 3.96,
-  "cone": 2.596,
-  "torus": 0.0
+  "red": 10.226,
+  "blue": 5.198,
+  "gift": 10.923
  },
  "max_accel": {
-  "hero_root": 21.6,
-  "ball": 30.013,
-  "cone": 24.769,
-  "torus": 0.006
+  "red": 56.208,
+  "blue": 67.162,
+  "gift": 254.363
  },
- "arc_smoothness": {}
+ "cameras": {
+  "CamA_Follow": 88,
+  "CamB_Window": 40,
+  "CamC_Door": 40,
+  "CamD_Inside": 36,
+  "CamE_Gift": 36
+ }
 }

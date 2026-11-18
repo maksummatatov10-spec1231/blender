@@ -1,4 +1,4 @@
-name: Publish Geo Circus release
+name: Publish GEO STORY v2 release
 
 on:
   push:
@@ -19,56 +19,72 @@ jobs:
           ref: ${{ github.ref }}
           fetch-depth: 1
 
-      - name: Verify every asset is present
+      - name: Verify every V2 asset is present
         shell: bash
         run: |
           set -euo pipefail
-          for f in geo_cartoon.mp4 geo_cartoon.blend renders_frames.zip \
-                   renders/screenshots/contact_sheet.png renders/screenshots/all_frames.png \
-                   renders/screenshots/skeleton.png renders/screenshots/motion_paths.png \
-                   renders/screenshots/skeleton_overlay.png \
-                   renders/screenshots/frame_0001.png renders/screenshots/frame_0044.png \
-                   renders/screenshots/frame_0120.png RELEASE_NOTES.md; do
+          for f in geo_story_v2.mp4 geo_story_v2.blend renders_v2_frames.zip \
+                   RELEASE_NOTES_V2.md lab/data/qa.json \
+                   renders/v2/screenshots/contact_sheet.png \
+                   renders/v2/screenshots/all_frames.png \
+                   renders/v2/screenshots/qa_trajectory.png \
+                   renders/v2/screenshots/arch_pass.png \
+                   renders/v2/screenshots/skeleton.png \
+                   renders/v2/screenshots/motion_paths.png \
+                   renders/v2/screenshots/diagnostics.png \
+                   renders/v2/screenshots/frame_0001.png \
+                   renders/v2/screenshots/frame_0054.png \
+                   renders/v2/screenshots/frame_0089.png \
+                   renders/v2/screenshots/frame_0169.png \
+                   renders/v2/screenshots/frame_0220.png \
+                   renders/v2/screenshots/frame_0240.png \
+                   renders/v2/frames_preview/frame_0001.jpg \
+                   renders/v2/frames_preview/frame_0240.jpg; do
             test -s "$f" || { echo "MISSING $f"; exit 1; }
             echo "OK $(stat -c%s "$f") $f"
           done
 
-      - name: Create release with MP4, .blend and images
+      - name: Create release with MP4, .blend, images and frame archive
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           REPO="${{ github.repository }}"
-          TAG="geo-cartoon-v1.0"
+          TAG="geo-story-v2.0"
           URL="https://github.com/${REPO}/releases/tag/${TAG}"
-          # idempotent: clean a previous attempt (tag + release)
           git push origin --delete "refs/tags/${TAG}" 2>/dev/null || true
           gh release delete "$TAG" --repo "$REPO" --yes --cleanup-tag 2>/dev/null || true
           gh release create "$TAG" --repo "$REPO" \
-            --title "Гео-цирк — мультфильм на Blender 5.3.0" \
-            --notes-file RELEASE_NOTES.md \
-            geo_cartoon.mp4 \
-            geo_cartoon.blend \
-            renders_frames.zip \
-            renders/screenshots/contact_sheet.png \
-            renders/screenshots/all_frames.png \
-            renders/screenshots/skeleton.png \
-            renders/screenshots/motion_paths.png \
-            renders/screenshots/skeleton_overlay.png \
-            renders/screenshots/frame_0001.png \
-            renders/screenshots/frame_0044.png \
-            renders/screenshots/frame_0120.png
-          echo "$URL" > release_url.txt
+            --title "GEO STORY v2 — Красный идёт в гости к Синему" \
+            --notes-file RELEASE_NOTES_V2.md \
+            geo_story_v2.mp4 \
+            geo_story_v2.blend \
+            renders_v2_frames.zip \
+            lab/data/qa.json \
+            renders/v2/screenshots/contact_sheet.png \
+            renders/v2/screenshots/all_frames.png \
+            renders/v2/screenshots/qa_trajectory.png \
+            renders/v2/screenshots/arch_pass.png \
+            renders/v2/screenshots/skeleton.png \
+            renders/v2/screenshots/motion_paths.png \
+            renders/v2/screenshots/diagnostics.png \
+            renders/v2/screenshots/frame_0001.png \
+            renders/v2/screenshots/frame_0054.png \
+            renders/v2/screenshots/frame_0089.png \
+            renders/v2/screenshots/frame_0169.png \
+            renders/v2/screenshots/frame_0220.png \
+            renders/v2/screenshots/frame_0240.png
+          echo "$URL" > release_url_v2.txt
           echo "RELEASE_URL=$URL" | tee -a "$GITHUB_ENV"
           gh release view "$TAG" --repo "$REPO" --json url,tagName,assets --jq '.url, (.assets[].name)'
 
-      - name: Record the release URL in the branch
+      - name: Record the V2 release URL in the branch
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "arena-agent"
           git config user.email "arena-agent@users.noreply.github.com"
-          git add release_url.txt
-          git commit -m "docs: record Geo Circus release URL [skip ci]" || echo "nothing to commit"
+          git add release_url_v2.txt
+          git commit -m "docs: record GEO STORY v2 release URL [skip ci]" || echo "nothing to commit"
           git push origin HEAD:"${GITHUB_REF#refs/heads/}"

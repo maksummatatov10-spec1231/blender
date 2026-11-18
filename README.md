@@ -1,54 +1,49 @@
-# Гео-цирк / Geo Circus
+# GEO STORY v2 — «Красный идёт в гости к Синему»
 
-Небольшой мультфильм из геометрических фигур, сделанный в **Blender 5.3.0** (установщик взят из релиза [`maksummatatov10-spec1231/blender1231@install`](https://github.com/maksummatatov10-spec1231/blender1231/releases/tag/install)).
+Полная замена первого «Гео-цирка». Сделано **только в Blender 5.3.0** (установщик из релиза `install` репозитория `blender1231`), Cycles CPU, 240 кадров / 24 fps / 10 с, 960×540.
+
+Ветка: https://github.com/maksummatov10-spec1231/blender/tree/arena/758e5991-blender
+
+## Сюжет
+1. **1–88** — Красный выходит из тёплого кирпичного домика и **забывает закрыть дверь**; идёт по изогнутой каменной дорожке и проходит **сквозь** садовую арку, развёрнутую по оси +X.
+2. **89–128** — Синий робот с другим лицом выглядывает из круглого окна своей высокой голубой башни и видит Красного.
+3. **129–168** — Красный подходит, стучит; Синий открывает дверь.
+4. **169–204** — Красный заходит внутрь, Синий протягивает подарочную коробку.
+5. **205–240** — Крышка открывается, из коробки вылетают ленты и конфетти, оба робота радуются.
+
+## Что внутри
+- 2 разных дома, реальные дверные/оконные проёмы, двери на петлях, скруглённые углы, bevel + weighted normals.
+- Процедурные текстуры Brick / Noise / Voronoi / Wave с bump, мягкие area-светильники, AgX, деноузинг.
+- 2 скелета по 23 кости, 6 IK-констрейнтов, shape keys мимики, походка с anticipation / follow-through / squash & stretch.
+- 5 камерных планов через timeline markers, движение камер, Motion Paths, BEZIER/AUTO_CLAMPED F-кривые.
+- 90 элементов хлопушки, покадровая лаборатория на 240 кадров, 16 автоматических QA-проверок.
+
+## Главное исправление ошибки с кольцом
+Арка повёрнута `(0, 90°, 0)`, отверстие смотрит по **+X** — по направлению движения. На кадре **54** проверены все деформированные вершины Красного: максимальный радиус **1.722 < 1.85** внутреннего радиуса. Робот проходит **сквозь** арку, а не рядом. Доказательства: `renders/v2/screenshots/arch_pass.png`, `qa_trajectory.png`, `lab/data/qa.json`.
 
 ## Файлы
-
-| Файл | Что это |
+| Файл | Назначение |
 | --- | --- |
-| `geo_cartoon.mp4` | финальная анимация, H.264, 24 fps, 120 кадров (5 с) |
-| `geo_cartoon.blend` | исходная сцена: арматура, IK, ключи, Motion Paths, материалы, свет |
-| `renders/frames/frame_0001.png … frame_0120.png` | каждый кадр отдельным изображением |
-| `renders/screenshots/contact_sheet.png` | раскадровка 12 ключевых кадров |
-| `renders/screenshots/all_frames.png` | все 120 кадров на одном листе |
-| `renders/screenshots/skeleton.png` | диагностический рендер костей и суставов |
-| `renders/screenshots/motion_paths.png` | запеченные траектории |
-| `renders/frames.zip` | архив со всеми кадрами |
-| `lab/index.html` | «лаборатория» — покадровый просмотр всего |
+| `geo_story_v2.blend` | исходная сцена Blender 5.3.0 |
+| `geo_story_v2.mp4` | финальный H.264 мультфильм |
+| `renders_v2_frames.zip` | архив 240 кадров |
+| `renders/v2/screenshots/` | раскадровка, все кадры, скелет, Motion Paths, QA, арка |
+| `lab/` | лаборатория: кадры, позиции, кости, траектории, проверки, источники |
+| `scripts/build_scene_v2.py` | полный билдер сцены |
+| `scripts/render_v2.py`, `encode_v2_mp4.py`, `make_v2_archive.py`, `verify_v2_screens.py`, `make_qa_plot.py` | рендер, сборка MP4, архив, диагностика |
 
-## Лаборатория
-
-Откройте `lab/index.html` через локальный HTTP-сервер (JSON подгружается `fetch`, поэтому `file://` не подойдёт):
-
+## Воспроизведение
 ```bash
-python3 -m http.server 8000 --bind 0.0.0.0
-# затем http://localhost:8000/lab/
+BIN="$PWD/tools/blender-5.3.0-linux-x64/blender"
+export LD_LIBRARY_PATH="$PWD/tools/syslibs22:$PWD/tools/blender-5.3.0-linux-x64/lib:$LD_LIBRARY_PATH"
+export LIBGL_DRIVERS_PATH="$PWD/tools/syslibs22/dri"
+export BLENDER_USER_CONFIG="$PWD/tools/blender_config"
+"$BIN" --background --factory-startup --python scripts/build_scene_v2.py
+"$BIN" --background geo_story_v2.blend --python scripts/render_v2.py -- 1 240 14 100 0 renders/v2/frames
+tools/venv/bin/python scripts/encode_v2_mp4.py
+tools/venv/bin/python scripts/make_v2_archive.py
 ```
 
-Лаборатория показывает на каждом кадре: все объекты, все кости, деформированные центры, траектории, скорости, F-кривые, 11 автоматических проверок, принципы анимации, все изображения и источники исследования.
+Лаборатория открывается через локальный статический сервер из корня репозитория: `/lab/`.
 
-## Как это сделано
-
-* **Скелет**: `HeroRig`, 18 костей, 3 IK-констрейнта (стопы + рука), 22 меша со 100%-ми вершинными группами и модификатором Armature.
-* **Принципы**: squash & stretch с сохранением объёма (`xy = 1/sqrt(z)`), anticipation, follow-through антенны, arcs, slow in/out (`BEZIER` + `AUTO_CLAMPED`), secondary action, exaggeration.
-* **Траектории**: `bpy.ops.object.paths_calculate` / `bpy.ops.pose.paths_calculate` + покадровый bake в светящиеся кривые `Path_*`.
-* **Blender 5.3 API**: `Action.fcurves` удалён — используется `bpy_extras.anim_utils.action_get_channelbag_for_slot(action, slot)`.
-* **Рендер**: Cycles CPU, 12 сэмплов + OpenImageDenoise (в `.blend` сохранены 24 сэмпла и motion blur 180° для перерендера), 768×432 в финальной PNG-последовательности.
-* **Сундук**: реквизит из лежащего в репозитории `сундук.blend`, с заменой отсутствующих текстур на процедурные материалы.
-
-## Скрипты
-
-```bash
-scripts/build_scene.py      # сцена, риг, анимация, экспорт JSON, .blend
-scripts/render_frames.py    # PNG-последовательность всех кадров
-scripts/verify_screens.py   # скриншоты скелета / траекторий
-scripts/make_contact_sheet.py
-scripts/encode_mp4.py
-```
-
-Blender лежит в игнорируемой `tools/` (архив 406 944 100 байт, SHA-256 `dacb8264197a3f7fda6001285a5a506fc97ee943881261c2c3bd63c882f22e05`).
-
-## Ссылки
-
-* Ветка: https://github.com/maksummatatov10-spec1231/blender/tree/arena/758e5991-blender
-* Релиз с файлами: https://github.com/maksummatatov10-spec1231/blender/releases/tag/geo-cartoon-v1.0
+> `geo_cartoon.*`, `renders/frames/` и `RELEASE_NOTES.md` — историческая v1, пользователем не принята. Финальная работа — **v2**.

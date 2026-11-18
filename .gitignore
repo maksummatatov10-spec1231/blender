@@ -5,6 +5,10 @@ tools/
 syslibs*.tar.gz
 installer_chunks/
 renders/probe/
+renders/v2/probe/
+# Full-resolution V2 PNG sequence stays local; compact JPEG archive is committed.
+renders/v2/frames/
+renders/v2/screenshots/final_probe.png
 *.blend1
 __pycache__/
 *.pyc
